@@ -8,6 +8,8 @@
 const Koa = require('koa')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
+import dbConfig from './dbs/config'  // 数据库的配置文件
+import mongoose from 'mongoose'
 
 import search from './interface/search'
 
