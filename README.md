@@ -37,5 +37,7 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
   # 1、如果你的表的名称后缀没有s的话，在创建model时一定要加上第三个参数 ，如果没有第三个参数 mongoose会自动查找第一个参数加上s后的表名
    mongoose.model('articlelist', schema,'articlelist');
 
-  # 2、如果你的表明里有驼峰写法  
+  # 2、如果你的表明里有驼峰写法,也需要添加第三个参数，否则也会出现查不到数据的情况
+    mongoose.model('articleLists', schema,'articleLists');
+
 ```

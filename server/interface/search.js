@@ -7,15 +7,15 @@
  */
 
 import Router from 'koa-router';
-const { MongoClient } = require('mongodb');
-const mongoose = require('mongoose');
-const dbConfig = require('../dbs/config');
+// const { MongoClient } = require('mongodb');
+// const mongoose = require('mongoose');
+// const dbConfig = require('../dbs/config');
 // mongoose.connect(dbConfig.url, { useNewUrlParser: true });
 
 // const conn = mongoose.connection;
 // conn.on('error', () => console.error('数据库链接失败！'));
 
-const ProductModel = require('../dbs/models/product'); /* 引入产品列表的数据库模型 */
+const ArticlelistModel = require('../dbs/models/articlelist'); /* 引入产品列表的数据库模型 */
 
 // const Schema = mongoose.Schema({
 // 	name: String,
@@ -66,7 +66,7 @@ router.get('/all', async (ctx) => {
 	// // 添加文档
   // let ret = await Model.find();
   console.time('start2333')
-  let ret = await ProductModel.getData()
+  let ret = await ArticlelistModel.getData()
   console.timeEnd('start2333')
 	console.log('插入文档111',ret)
 	ctx.body = {
