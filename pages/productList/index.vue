@@ -14,16 +14,14 @@
 </template>
 <script>
 const columns = [
-  { title: '产品名称', width: 100, dataIndex: 'name', key: 'name', fixed: 'left' },
-  { title: 'Age', width: 100, dataIndex: 'age', key: 'age', fixed: 'left' },
-  { title: 'Column 1', dataIndex: 'address', key: '1', width: 150 },
-  { title: 'Column 2', dataIndex: 'address', key: '2', width: 150 },
-  { title: 'Column 3', dataIndex: 'address', key: '3', width: 150 },
-  { title: 'Column 4', dataIndex: 'address', key: '4', width: 150 },
-  { title: 'Column 5', dataIndex: 'address', key: '5', width: 150 },
-  { title: 'Column 6', dataIndex: 'address', key: '6', width: 150 },
-  { title: '创建日期', dataIndex: 'address', key: '7', width: 150 },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
+  { title: '标题', width: 100, dataIndex: 'title', key: 'title', fixed: 'left' },
+  { title: '作者', width: 100, dataIndex: 'author', key: 'author', fixed: 'left' },
+  { title: '状态', dataIndex: 'status', key: 'status', width: 150 },
+  { title: '创建时间', dataIndex: 'createTime', key: 'createTime', width: 150 },
+  { title: '点赞数量', dataIndex: 'likesNumber', key: 'likesNumber', width: 150 },
+  { title: '最终审核人', dataIndex: 'finalReviewer', key: 'finalReviewer', width: 150 },
+  { title: '发布时间', dataIndex: 'address', key: '5', width: 150 },
+ 
   {
     title: 'Action',
     key: 'operation',
@@ -41,7 +39,7 @@ for (let i = 0; i < 100; i++) {
     address: `London Park no. ${i}`,
   });
 }
-import {searchAll} from '@/api/product'
+import {searchAll,searchAll1} from '@/api/product'
 export default {
   data() {
     return {
@@ -54,7 +52,13 @@ export default {
     getTableList(){
       searchAll().then(res=>{
       console.log('请求接口all',res)
+      if(res.status===200){
+        this.data = res.data
+      }
     })
+    // searchAll1().then(res=>{
+    //   console.log('请求接口all1',res)
+    // })
     }
   },
   

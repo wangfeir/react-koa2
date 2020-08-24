@@ -13,3 +13,10 @@ export function searchAll(parameter) {
 		data: parameter
 	});
 }
+export function searchAll1(parameter) {
+	return axios({
+		url: `/search/all1`,
+		method: 'get',
+		data: parameter
+	});
+}
