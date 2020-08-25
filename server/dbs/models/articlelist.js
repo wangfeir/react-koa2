@@ -35,6 +35,9 @@ schema.statics.getData = function(parames = {}) {
 	return this.model('articleLists').find(parames).exec();
 };
 
+schema.statics.deleteData = function(parames) {
+	return this.model('articleLists').deleteMany(parames).exec()
+}
 const model = mongoose.model('articleLists', schema,"articleLists");
 module.exports = model;
 // const schema = mongoose.Schema({

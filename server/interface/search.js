@@ -28,7 +28,7 @@ const ArticlelistModel = require('../dbs/models/articlelist'); /* 引入产品�
 // 创建model 
 // const Model = mongoose.model('fruits', Schema);
 let router = new Router({
-	prefix: '/search'
+	prefix: '/list'
 });
 
 // router.get('/all', async (ctx) => {
@@ -64,7 +64,40 @@ let router = new Router({
 // 		data: rets
 // 	};
 // });
-router.get('/all', async (ctx) => {
+
+router.delete('/delete',async (ctx)=>{
+	let requsetUrl = ctx.url;
+	let params = url.parse(requsetUrl, true).query
+	params['_id'] = params['_id'].split(',');
+	let length = params['_id'].length;
+	let deleteParams;
+	if(!length){
+		ctx.body = {
+			status: 400,
+			data: '请选择数据!'
+		};
+		return false
+	}
+	if(length&&length>1){
+		deleteParams = { _id: { $in: params['_id'] } } // 删除多条数据方法
+	}else{
+		deleteParams = params
+	}
+	let ret = await ArticlelistModel.deleteData(deleteParams)
+	console.log('删除数据',ret)
+	if(length===ret.deletedCount){
+		ctx.body = {
+			status: 200,
+			data: 'success'
+		};
+	}else{
+		ctx.body = {
+			status: 400,
+			data: ret
+		};
+	}
+})
+router.get('/search', async (ctx) => {
 	// // 添加文档
 	let requsetUrl = ctx.url;
 	let findData = url.parse(requsetUrl, true).query

@@ -1,3 +1,10 @@
+<!--
+ * @description: 
+ * @param: 
+ * @author: Fei
+ * @return: 
+ * @Date: 2020-08-21 12:09:30
+-->
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
@@ -14,7 +21,7 @@
         />
       </a-layout-header>
       <a-layout-content
-        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
+        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px',position:'relative' }"
       >
         <!-- Content -->
         <nuxt />

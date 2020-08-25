@@ -8,6 +8,9 @@
 <template>
   <div>
     <TableSearch :columns="searchColumns" @search="handleSearch"/>
+    <a-button>送审</a-button>
+    <a-button @click="deleteDatas">删除</a-button>
+    <a-button>发布</a-button>
         <!-- <a-divider></a-divider> -->
     <a-table
       :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
@@ -15,7 +18,7 @@
       :data-source="data"
       size="small"
     >
-      <!-- <a slot="action" slot-scope="text">action</a> -->
+      <a slot="action" slot-scope="row" @click="()=>(deleteData(row))">删除</a>
     </a-table>
   </div>
 </template>
@@ -73,7 +76,7 @@ const columns = [
   },
 ];
 
-import { searchAll } from "@/api/articleList";
+import { searchAll,deleteServer } from "@/api/articleList";
 import TableSearch from "@/components/TableSearch"
 export default {
   components:{TableSearch},
@@ -84,9 +87,41 @@ export default {
       data:[],
       columns,
       selectedRowKeys: [],
+      selectedRowId:[],
+      searchData:{
+        page:1,
+        size:20,
+      }
     };
   },
   methods: {
+    // 删除单条数据
+    deleteData(e){
+      console.log('删除',e)
+      let parames = {
+        '_id':e['_id']
+      }
+      deleteServer(parames).then(res=>{
+        if(res.status===200){
+          this.$message.success('删除成功！')
+          this.getTableList()
+        }
+      })
+
+    },
+    // 删除多条数据
+    deleteDatas(){
+      let parames = {
+        '_id':this.selectedRowId.join()
+      }
+      // console.log('删除多条数据',parames)
+      deleteServer(parames).then(res=>{
+        if(res.status===200){
+          this.$message.success('删除成功！')
+          this.getTableList()
+        }
+      })
+    },
     /**
      * 检索
      */
@@ -99,8 +134,13 @@ export default {
         }
       });
     },
-    onSelectChange(e) {
-      console.log(e);
+    onSelectChange(selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys;
+      selectedRowKeys.forEach(element => {
+        this.selectedRowId.push(this.data[element]['_id'])
+      });
+        console.log('element',this.selectedRowId)
+
     },
     getTableList() {
       searchAll().then((res) => {

@@ -8,15 +8,15 @@
 import {axios} from '../util/axios';
 export function searchAll(parameter) {
 	return axios({
-		url: `/search/all`,
+		url: `/list/search`,
 		method: 'get',
 		params: parameter
 	});
 }
-export function searchAll1(parameter) {
+export function deleteServer(parameter) {
 	return axios({
-		url: `/search/all1`,
-		method: 'get',
-		data: parameter
+		url: `/list/delete`,
+		method: 'delete',
+		params: parameter
 	});
 }

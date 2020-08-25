@@ -6,16 +6,22 @@
  * @Date: 2020-08-21 14:17:33
 -->
 <template>
+
   <a-menu
+    class="left-nav"
     :default-selected-keys="['1']"
     :default-open-keys="['sub1']"
+    @click="handleTo"
     mode="inline"
     theme="dark"
     :inline-collapsed="collapsed"
   >
-    <a-menu-item key="1">
+    <a-menu-item key="articleList">
       <a-icon type="pie-chart" />
-      <router-link to="/articleList" style="display:inline-block">产品列表</router-link>
+      <!-- <span ><router-link to="/articleList" >产品列表</router-link></span> -->
+      <span >产品列表</span>
+
+      <!-- <router-link to="/articleList" style="display:inline-block">产品列表</router-link> -->
     </a-menu-item>
     <a-menu-item key="2">
       <a-icon type="desktop" />
@@ -61,5 +67,18 @@ export default {
       // collapsed: false,
     };
   },
+  methods:{
+   handleTo(e) {
+     this.$router.push({name:e.key})
+      console.log('click', e);
+    },
+  }
 };
 </script>
+<style lang="less">
+.left-nav{
+  // height:calc(100vh-64px)
+  // height:calc(~"100vh- 64px");
+       height: calc(100vh - 64px);     
+}
+</style>
