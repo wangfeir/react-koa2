@@ -8,12 +8,13 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
+	id:String,
 	title: String, // 标题
 	author: String, // 作者
 	createTime: { type: Date, default: Date.now }, // 创建时间
 	tab: String, // 标签
 	likesNumber: String, // 点赞数量
-	status: String, // 当前状态
+	status: Number, // 当前状态
 	category: String, // 类别
 	oneReviewer: String, // 一审人
 	oneAuditStatus: String, // 一审状态

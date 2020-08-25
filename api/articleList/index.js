@@ -10,7 +10,7 @@ export function searchAll(parameter) {
 	return axios({
 		url: `/search/all`,
 		method: 'get',
-		data: parameter
+		params: parameter
 	});
 }
 export function searchAll1(parameter) {

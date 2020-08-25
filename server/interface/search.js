@@ -8,6 +8,8 @@
 
 import Router from 'koa-router';
 // const { MongoClient } = require('mongodb');
+const url  = require('url');
+
 // const mongoose = require('mongoose');
 // const dbConfig = require('../dbs/config');
 // mongoose.connect(dbConfig.url, { useNewUrlParser: true });
@@ -64,11 +66,20 @@ let router = new Router({
 // });
 router.get('/all', async (ctx) => {
 	// // 添加文档
+	let requsetUrl = ctx.url;
+	let findData = url.parse(requsetUrl, true).query
+	let params = {}
+	for (const key in findData) {
+		if (findData[key]) {
+			params[key] = {$regex: findData[key], $options: '$i'} // $options: '$i' 不区分大小写
+		}
+	}
+	console.log('请求的参数',ctx,params)
   // let ret = await Model.find();
   console.time('start2333')
-  let ret = await ArticlelistModel.getData()
+  let ret = await ArticlelistModel.getData(params)
   console.timeEnd('start2333')
-	console.log('插入文档111',ret)
+	// console.log('插入文档111',ret)
 	ctx.body = {
 		status: 200,
 		data: ret

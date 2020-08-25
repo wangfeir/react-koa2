@@ -15,7 +15,7 @@
   >
     <a-menu-item key="1">
       <a-icon type="pie-chart" />
-      <router-link to="/productList" style="display:inline-block">产品列表</router-link>
+      <router-link to="/articleList" style="display:inline-block">产品列表</router-link>
     </a-menu-item>
     <a-menu-item key="2">
       <a-icon type="desktop" />
