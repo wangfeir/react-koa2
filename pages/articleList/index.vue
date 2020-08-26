@@ -19,6 +19,8 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
+
         />
       </a-tab-pane>
       <a-tab-pane key="2" tab="一审">
@@ -27,6 +29,7 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
         />
       </a-tab-pane>
       <a-tab-pane key="3" tab="二审">
@@ -35,6 +38,8 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
+
         />
       </a-tab-pane>
       <a-tab-pane key="4" tab="终审">
@@ -43,6 +48,8 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
+
         />
       </a-tab-pane>
       <a-tab-pane key="5" tab="发布">
@@ -51,6 +58,8 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
+
         />
       </a-tab-pane>
       <a-tab-pane key="6" tab="全部">
@@ -59,6 +68,8 @@
           :data="data"
           @selectChange="selectChange"
           @deleteData="deleteData"
+          :pageData ="searchData"
+
         />
       </a-tab-pane>
       <ul slot="tabBarExtraContent" class="tab-extra-btn">
@@ -233,8 +244,10 @@ export default {
       selectedRowId: [],
       searchData: {
         type: "all",
-        page: 1,
-        size: 20,
+        data:{},
+        current: 1,
+        pageSize: 20,
+        total:0
       },
     };
   },
@@ -285,12 +298,15 @@ export default {
      */
     handleSearch(e) {
       console.log("搜索", e);
-      searchAll(e).then((res) => {
-        console.log("请求接口all", res);
-        if (res.status === 200) {
-          this.data = res.data;
-        }
-      });
+      this.searchData.data = e;
+      this.searchData.page = 1;
+      this.getTableList();
+      // searchAll(e).then((res) => {
+      //   console.log("请求接口all", res);
+      //   if (res.status === 200) {
+      //     this.data = res.data;
+      //   }
+      // });
     },
     selectChange(selectedRowId) {
       this.selectedRowId = selectedRowId;
@@ -304,10 +320,11 @@ export default {
     //   console.log("element", this.selectedRowId);
     // },
     getTableList() {
-      searchAll().then((res) => {
+      searchAll(this.searchData).then((res) => {
         console.log("请求接口all", res);
         if (res.status === 200) {
           this.data = res.data;
+          this.searchData.total = res.total
         }
       });
       // searchAll1().then(res=>{

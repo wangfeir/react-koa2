@@ -32,10 +32,14 @@ const schema = mongoose.Schema({
 });
 
 // statics：类上扩展
-schema.statics.getData = function(parames = {}) {
-	return this.model('articleLists').find(parames).exec();
-};
+schema.statics.getData = function(parames = {},pageSize,current) {
 
+	
+	return this.model('articleLists').find(parames).skip((current - 1) * pageSize).limit(Number(pageSize)).sort({'_id': -1}).exec();
+};
+schema.statics.getDataCount = function(parames){
+	return this.model('articleLists').count(parames).exec()
+}
 schema.statics.deleteData = function(parames) {
 	return this.model('articleLists').deleteMany(parames).exec()
 }

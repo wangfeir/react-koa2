@@ -55,21 +55,27 @@ router.get('/search', async (ctx) => {
 	// // 添加文档
 	let requsetUrl = ctx.url;
 	let findData = url.parse(requsetUrl, true).query
+	const {pageSize,current} = findData
+	let paramsData = JSON.parse(findData.data)
 	let params = {}
-	for (const key in findData) {
-		if (findData[key]) {
-			params[key] = {$regex: findData[key], $options: '$i'} // $options: '$i' 不区分大小写
+	for (const key in paramsData) {
+		if (paramsData[key]) {
+			params[key] = {$regex: paramsData[key], $options: '$i'} // $options: '$i' 不区分大小写
 		}
 	}
 	console.log('请求的参数',ctx,params)
   // let ret = await Model.find();
-  console.time('start2333')
-  let ret = await ArticlelistModel.getData(params)
+	console.time('start2333')
+	
+	let ret = await ArticlelistModel.getData(params,pageSize,current)
+	let total = await ArticlelistModel.getDataCount(params)
+	console.log('total数量',total)
   console.timeEnd('start2333')
 	// console.log('插入文档111',ret)
 	ctx.body = {
 		status: 200,
-		data: ret
+		data: ret,
+		total
 	};
 });
 
