@@ -8,10 +8,12 @@
 const Koa = require('koa')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-
+const bodyParser = require('koa-bodyparser');
 import search from './interface/search'
+import create from './interface/create'
 const app = new Koa()
 
+app.use(bodyParser());
 
 require('./dbs/index')    // 链接数据库
 
@@ -38,7 +40,8 @@ async function start () {
 
   // app.user(search.routes()).use(search.allowedMethods())
   app.use(search.routes()).use(search.allowedMethods())
-
+  app.use(create.routes()).use(create.allowedMethods())
+  
   app.use((ctx) => {
     ctx.status = 200
     ctx.respond = false // Bypass Koa's built-in response handling

@@ -16,6 +16,7 @@ const schema = mongoose.Schema({
 	likesNumber: String, // 点赞数量
 	status: Number, // 当前状态
 	category: String, // 类别
+	content: String, // 内容
 	oneReviewer: String, // 一审人
 	oneAuditStatus: String, // 一审状态
 	oneAuditTime: { type: Date }, // 一审操作时间
@@ -37,6 +38,12 @@ schema.statics.getData = function(parames = {}) {
 
 schema.statics.deleteData = function(parames) {
 	return this.model('articleLists').deleteMany(parames).exec()
+}
+
+schema.statics.saveData = function (parames){
+	const create = this.model('articleLists')
+	const createData = new create(parames)
+	return createData.save()
 }
 const model = mongoose.model('articleLists', schema,"articleLists");
 module.exports = model;
