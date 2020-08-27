@@ -64,7 +64,7 @@
 export default {
   data() {
     return {
-      // collapsed: false,
+      collapsed: false,
     };
   },
   methods:{

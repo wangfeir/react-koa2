@@ -8,6 +8,7 @@
 <template>
   <div>
     <a-table
+      rowKey="_id"
       :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
       :columns="columns"
       :data-source="data"
