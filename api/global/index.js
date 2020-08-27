@@ -13,3 +13,11 @@ export function createData(parameter) {
 		data: parameter
 	});
 }
+
+export function updateData(parameter) {
+	return axios({
+		url: `/global/updateData`,
+		method: 'post',
+		data: parameter
+	});
+}

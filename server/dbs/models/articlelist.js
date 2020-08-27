@@ -12,6 +12,7 @@ const schema = mongoose.Schema({
 	title: String, // 标题
 	author: String, // 作者
 	createTime: { type: Date, default: Date.now }, // 创建时间
+	updateTime: { type: Date}, // 更新时间
 	tab: String, // 标签
 	likesNumber: String, // 点赞数量
 	status: String, // 当前状态
@@ -44,10 +45,17 @@ schema.statics.deleteData = function(parames) {
 	return this.model('articleLists').deleteMany(parames).exec()
 }
 
+
 schema.statics.saveData = function (parames){
 	const create = this.model('articleLists')
 	const createData = new create(parames)
 	return createData.save()
+}
+
+schema.statics.updateData = function(parames){
+	// console.log(parames['_id'],this.model('articleLists').findByIdAndUpdate(parames['_id'],parames))
+	return this.model('articleLists').findByIdAndUpdate(parames['_id'],parames).exec()
+
 }
 const model = mongoose.model('articleLists', schema,"articleLists");
 module.exports = model;
