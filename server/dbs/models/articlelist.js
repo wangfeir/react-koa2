@@ -14,7 +14,7 @@ const schema = mongoose.Schema({
 	createTime: { type: Date, default: Date.now }, // 创建时间
 	tab: String, // 标签
 	likesNumber: String, // 点赞数量
-	status: Number, // 当前状态
+	status: String, // 当前状态
 	category: String, // 类别
 	content: String, // 内容
 	oneReviewer: String, // 一审人

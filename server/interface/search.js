@@ -51,19 +51,23 @@ router.delete('/delete',async (ctx)=>{
 	}
 })
 // 获取数据
-router.get('/search', async (ctx) => {
-	// // 添加文档
-	let requsetUrl = ctx.url;
-	let findData = url.parse(requsetUrl, true).query
-	const {pageSize,current} = findData
-	let paramsData = JSON.parse(findData.data)
+router.post('/search', async (ctx) => {
+	// let requsetUrl = ctx.url;
+	// let findData = url.parse(requsetUrl, true).query
+	let findData = ctx.request.body
+	const {pageSize,current,status} = findData
+
+	let paramsData = findData.data
 	let params = {}
 	for (const key in paramsData) {
 		if (paramsData[key]) {
 			params[key] = {$regex: paramsData[key], $options: '$i'} // $options: '$i' 不区分大小写
 		}
 	}
-	console.log('请求的参数',ctx,params)
+	if(status){
+		params.status = status
+	}
+	console.log('请求的参数',params,paramsData)
   // let ret = await Model.find();
 	console.time('start2333')
 	
@@ -75,7 +79,8 @@ router.get('/search', async (ctx) => {
 	ctx.body = {
 		status: 200,
 		data: ret,
-		total
+		total:Number(total),
+		pageSize:Number(pageSize),current:Number(current)
 	};
 });
 

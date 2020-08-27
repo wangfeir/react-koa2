@@ -42,7 +42,7 @@ router.post('/createData',async (ctx)=>{
     }else{
       // 创建数据
       rb.createTime = Date.parse(new Date());
-      rb.status = 0;
+      rb.status = 'create';
       try {
         let ret = await ArticlelistModel.saveData(rb);
         ctx.body = {

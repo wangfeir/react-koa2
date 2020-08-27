@@ -9,8 +9,8 @@ import {axios} from '../util/axios';
 export function searchAll(parameter) {
 	return axios({
 		url: `/list/search`,
-		method: 'get',
-		params: parameter
+		method: 'post',
+		data: parameter
 	});
 }
 export function deleteServer(parameter) {

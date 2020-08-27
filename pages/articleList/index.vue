@@ -12,73 +12,77 @@
       <a-col span="12"></a-col>
       <a-col span="12"></a-col>
     </a-row>
-    <a-tabs default-active-key="1">
-      <a-tab-pane key="1" tab="待审">
+    <a-tabs default-active-key="all" @tabClick="tabsChange">
+      <a-tab-pane key="create" tab="待审"  >
         <TableModel
           :columns="columns"
-          :data="data"
+          :data="tableData['create'].data"
+          :pageData="tableData['create']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
-
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="一审">
+      <a-tab-pane key="examineOne" tab="一审">
         <TableModel
           :columns="columns"
-          :data="data"
+          :data="tableData['examineOne'].data"
+          :pageData="tableData['examineOne']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
-      <a-tab-pane key="3" tab="二审">
+      <a-tab-pane key="examineTwo" tab="二审">
         <TableModel
-          :columns="columns"
-          :data="data"
+           :columns="columns"
+          :data="tableData['examineTwo'].data"
+          :pageData="tableData['examineTwo']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
-
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
-      <a-tab-pane key="4" tab="终审">
+      <a-tab-pane key="examineFinal" tab="终审">
         <TableModel
           :columns="columns"
-          :data="data"
+          :data="tableData['examineFinal'].data"
+          :pageData="tableData['examineFinal']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
-
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
-      <a-tab-pane key="5" tab="发布">
+      <a-tab-pane key="publish" tab="发布">
         <TableModel
           :columns="columns"
-          :data="data"
+          :data="tableData['publish'].data"
+          :pageData="tableData['publish']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
-
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
-      <a-tab-pane key="6" tab="全部">
+      <a-tab-pane key="all" tab="全部">
         <TableModel
           :columns="columns"
-          :data="data"
+          :data="tableData['all'].data"
+          :pageData="tableData['all']"
           @selectChange="selectChange"
           @deleteData="deleteData"
-          :pageData ="searchData"
-
+          @pageChange="pageChange"
+          :loading="tableLoading"
         />
       </a-tab-pane>
       <ul slot="tabBarExtraContent" class="tab-extra-btn">
         <li>
           <!-- 新增弹窗 -->
-    <CreateDataModel
-      :fromlist="createFromList"
-      @refreshTable = "getTableList"
-    />
+          <CreateDataModel :fromlist="createFromList" @refreshTable="getTableList" />
         </li>
         <li>
           <a-button @click="deleteDatas">删除</a-button>
@@ -91,7 +95,7 @@
         </li>
       </ul>
     </a-tabs>
-    
+
     <!-- <a-modal
       title="新增数据"
       :visible="visible"
@@ -237,21 +241,62 @@ export default {
       // createVisible: false, // 创建弹窗显示控制
       // createConfirmLoading: false, // 创建弹窗loading控制
       createFromList, // 创建from表单内容绘制json
+      tableLoading: false,
       searchColumns,
       data: [],
+      tableData:{
+        'create':{current: 1,
+        pageSize: 20,},
+        'examineOne':{current: 1,
+        pageSize: 20,},
+        'examineTwo':{current: 1,
+        pageSize: 20,},
+        'examineFinal':{current: 1,
+        pageSize: 20,},
+        'publish':{current: 1,
+        pageSize: 20,},
+        'all':{current: 1,
+        pageSize: 20,},
+      },
       columns,
       selectedRowKeys: [],
-      selectedRowId: [],
+      selectedRowId: {
+        'create':[],
+        'examineOne':[],
+        'examineTwo':[],
+        'examineFinal':[],
+        'publish':[],
+        'all':[],
+      },
       searchData: {
-        type: "all",
-        data:{},
+        status: "",
+        data: {},
         current: 1,
         pageSize: 20,
-        total:0
+        total: 0,
       },
     };
   },
   methods: {
+    tabsChange(e){
+      console.log('切换',e)
+      if(e==='all'){
+        this.searchData.status=''
+      }else{
+        this.searchData.status=e
+      }
+      this.getTableList();
+
+    },
+    // 分页切换
+    pageChange(current, pageSize) {
+      console.log("分页变化", current, pageSize);
+            let status = this.searchData.status?this.searchData.status:'all'
+
+      this.tableData[status].current = current;
+      this.tableData[status].pageSize = pageSize;
+      this.getTableList();
+    },
     handleOk(e) {
       this.ModalText = "The modal will be closed after two seconds";
       this.confirmLoading = true;
@@ -282,8 +327,9 @@ export default {
     },
     // 删除多条数据
     deleteDatas() {
+      let status = this.searchData.status?this.searchData.status:'all'
       let parames = {
-        _id: this.selectedRowId.join(),
+        _id: this.selectedRowId[status].join(),
       };
       // console.log('删除多条数据',parames)
       deleteServer(parames).then((res) => {
@@ -309,24 +355,39 @@ export default {
       // });
     },
     selectChange(selectedRowId) {
-      this.selectedRowId = selectedRowId;
+      // this.selectedRowId = selectedRowId;
+      let status = this.searchData.status?this.searchData.status:'all'
+      this.selectedRowId[status] = selectedRowId
       console.log("selectedRowId", selectedRowId);
     },
-    // onSelectChange(selectedRowKeys) {
-    //   this.selectedRowKeys = selectedRowKeys;
-    //   selectedRowKeys.forEach((element) => {
-    //     this.selectedRowId.push(this.data[element]["_id"]);
-    //   });
-    //   console.log("element", this.selectedRowId);
-    // },
     getTableList() {
-      searchAll(this.searchData).then((res) => {
-        console.log("请求接口all", res);
-        if (res.status === 200) {
-          this.data = res.data;
-          this.searchData.total = res.total
-        }
-      });
+      this.tableLoading = true;
+      let status = this.searchData.status?this.searchData.status:'all'
+
+      if(this.tableData[status].current){
+        this.searchData.current = this.tableData[status].current
+        this.searchData.pageSize =this.tableData[status].pageSize
+      }else{
+         this.searchData.current = 1
+          this.searchData.pageSize = 20
+      }
+      searchAll(this.searchData)
+        .then((res) => {
+          console.log("请求接口all", res);
+          if (res.status === 200) {
+            let status = this.searchData.status?this.searchData.status:'all'
+            this.tableData[status] = res
+            this.data = res.data;
+            this.searchData.total = res.total;
+          }else{
+            this.$message.warning('获取列表错误！')
+          }
+          this.tableLoading = false;
+        })
+        .catch((err) => {
+          this.tableLoading = false;
+          this.$message.error('获取列表错误！')
+        });
       // searchAll1().then(res=>{
       //   console.log('请求接口all1',res)
       // })

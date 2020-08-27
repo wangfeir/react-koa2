@@ -16,7 +16,8 @@
     >
       <a slot="action" slot-scope="row" @click="()=>(deleteFun(row))">删除</a>
     </a-table>
-    <a-pagination
+    <div class="table-pagination">
+      <a-pagination
       v-model="pageData.current"
       :page-size-options="pageSizeOptions"
       :total="pageData.total"
@@ -29,11 +30,13 @@
         <span v-if="props.value === '50'">全部</span>
       </template>
     </a-pagination>
+    </div>
+    
   </div>
 </template>
 <script>
 export default {
-  props: ["columns", "data", "selectChange", "deleteData","pageData"],
+  props: ["columns", "data", "selectChange", "deleteData","pageData","pageChange"],
   data() {
     return {
       selectedRowKeys: [],
@@ -45,7 +48,7 @@ export default {
   methods: {
     onShowSizeChange(current, pageSize) {
       // this.pageSize = pageSize;
-      console.log('分页变化',current, pageSize)
+      this.$emit('pageChange',current, pageSize)
     },
     deleteFun(e) {
       let parames = {
@@ -63,3 +66,9 @@ export default {
   },
 };
 </script>
+<style lang="less">
+.table-pagination{
+  padding-top: 10px;
+  text-align: right;
+}
+</style>
