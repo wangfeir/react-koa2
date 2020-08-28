@@ -11,8 +11,10 @@ const schema = mongoose.Schema({
 	id:String,
 	title: String, // 标题
 	author: String, // 作者
-	createTime: { type: Date, default: Date.now }, // 创建时间
-	updateTime: { type: Date}, // 更新时间
+	// createTime: { type: Date, default: Date.now }, // 创建时间
+	// updateTime: { type: Date}, // 更新时间
+	createTime: Number, // 创建时间
+	updateTime: Number, // 更新时间
 	tab: String, // 标签
 	likesNumber: String, // 点赞数量
 	status: String, // 当前状态

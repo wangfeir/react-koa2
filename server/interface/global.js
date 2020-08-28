@@ -7,6 +7,7 @@
  */
 import Router from 'koa-router';
 const url = require('url');
+
 const ArticlelistModel = require('../dbs/models/articlelist');
 // const koaBody = require('koa-body')({
 //   multipart: true,  // 允许上传多个文件
@@ -38,7 +39,8 @@ router.post('/updateData', async (ctx) => {
 			data: `${error.join(',')} 数据不能为空!`
 		};
 	} else {
-		rb.updateTime = Date.parse(new Date());
+    rb.updateTime =new Date().getTime();
+    console.log('更新时间',rb.updateTime);
 		rb.status = 'create';
 		try {
 			let ret = await ArticlelistModel.updateData(rb);
@@ -76,7 +78,7 @@ router.post('/createData', async (ctx) => {
 			};
 		} else {
 			// 创建数据
-			rb.createTime = Date.parse(new Date());
+			rb.createTime =  new Date().getTime();
 			rb.status = 'create';
 			try {
 				let ret = await ArticlelistModel.saveData(rb);

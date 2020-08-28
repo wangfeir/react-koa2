@@ -8,10 +8,6 @@
 <template>
   <div>
     <TableSearch :columns="searchColumns" @search="handleSearch" />
-    <a-row>
-      <a-col span="12"></a-col>
-      <a-col span="12"></a-col>
-    </a-row>
     <a-tabs default-active-key="all" @tabClick="tabsChange">
       <a-tab-pane key="create" tab="待审">
         <TableModel
@@ -145,8 +141,8 @@ const columns = [
   },
   { title: "内容", dataIndex: "content", key: "content" },
   { title: "状态", dataIndex: "status", key: "status" },
-  { title: "创建时间", dataIndex: "createTime", key: "createTime" },
-  { title: "更新", dataIndex: "updateTime", key: "updateTime" },
+  { title: "创建时间", dataIndex: "createTime", key: "createTime",scopedSlots: { customRender: "date" }, },
+  { title: "更新", dataIndex: "updateTime", key: "updateTime" ,scopedSlots: { customRender: "date" },},
   {
     title: "点赞数量",
     dataIndex: "likesNumber",
@@ -157,7 +153,7 @@ const columns = [
     dataIndex: "finalReviewer",
     key: "finalReviewer",
   },
-  { title: "发布时间", dataIndex: "address", key: "5" },
+  { title: "发布时间", dataIndex: "address", key: "5" ,scopedSlots: { customRender: "date" },},
 
   {
     title: "Action",

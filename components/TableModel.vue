@@ -26,6 +26,9 @@
         <a href="javascript:;" @click="()=>(editFun(row))">编辑</a>
 
       </div>
+      <div slot="date" slot-scope="text">
+        {{moment(text).format("YYYY-MM-DD HH:mm:ss")}}
+      </div>
 
     </a-table>
     <div class="table-pagination">
@@ -46,6 +49,8 @@
   </div>
 </template>
 <script>
+import moment from "moment";
+
 export default {
   props: [
     "columns",
@@ -64,6 +69,7 @@ export default {
     };
   },
   methods: {
+    moment,
     onShowSizeChange(current, pageSize) {
       // this.pageSize = pageSize;
       this.$emit("pageChange", current, pageSize);
