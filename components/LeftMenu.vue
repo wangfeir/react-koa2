@@ -6,7 +6,6 @@
  * @Date: 2020-08-21 14:17:33
 -->
 <template>
-
   <a-menu
     class="left-nav"
     :default-selected-keys="['1']"
@@ -16,13 +15,32 @@
     theme="dark"
     :inline-collapsed="collapsed"
   >
-    <a-menu-item key="articleList">
-      <a-icon type="pie-chart" />
-      <!-- <span ><router-link to="/articleList" >产品列表</router-link></span> -->
-      <span >产品列表</span>
+    <a-sub-menu key="webDataManage">
+      <span slot="title">
+        <a-icon type="mail" />
+        <span>前台数据管理</span>
+      </span>
+      <a-menu-item key="articleList">
+        <a-icon type="pie-chart" />
+        <!-- <span ><router-link to="/articleList" >产品列表</router-link></span> -->
+        <span>产品列表</span>
 
-      <!-- <router-link to="/articleList" style="display:inline-block">产品列表</router-link> -->
-    </a-menu-item>
+        <!-- <router-link to="/articleList" style="display:inline-block">产品列表</router-link> -->
+      </a-menu-item>
+    </a-sub-menu>
+    <a-sub-menu key="backstageManage">
+      <span slot="title">
+        <a-icon type="mail" />
+        <span>后台数据管理</span>
+      </span>
+      <a-menu-item key="usersList">
+        <a-icon type="pie-chart" />
+        <!-- <span ><router-link to="/articleList" >产品列表</router-link></span> -->
+        <span>用户列表</span>
+
+        <!-- <router-link to="/articleList" style="display:inline-block">产品列表</router-link> -->
+      </a-menu-item>
+    </a-sub-menu>
     <a-menu-item key="2">
       <a-icon type="desktop" />
       <span>Option 2</span>
@@ -67,18 +85,18 @@ export default {
       collapsed: false,
     };
   },
-  methods:{
-   handleTo(e) {
-     this.$router.push({name:e.key})
-      console.log('click', e);
+  methods: {
+    handleTo(e) {
+      this.$router.push({ name: e.key });
+      console.log("click", e);
     },
-  }
+  },
 };
 </script>
 <style lang="less">
-.left-nav{
+.left-nav {
   // height:calc(100vh-64px)
   // height:calc(~"100vh- 64px");
-       height: calc(100vh - 64px);     
+  height: calc(100vh - 64px);
 }
 </style>
