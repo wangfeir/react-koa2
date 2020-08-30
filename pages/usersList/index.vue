@@ -50,8 +50,8 @@ const searchColumns = [
 const columns = [
   {
     title: "帐号",
-    dataIndex: "username",
-    key: "username",
+    dataIndex: "userid",
+    key: "userid",
   },
   {
     title: "姓名",
@@ -215,7 +215,8 @@ const editFromList = [
     required: true,
   },
 ];
-import { searchAll, deleteServer } from "@/api/articleList";
+// import { searchAll, deleteServer } from "@/api/articleList";
+import { getData } from "@/api/usersList";
 import TableSearch from "@/components/TableSearch";
 import CreateDataModel from "@/components/CreateDataModel";
 import EditDataModel from "@/components/EditDataModel";
@@ -351,7 +352,7 @@ export default {
         this.searchData.current = 1;
         this.searchData.pageSize = 20;
       }
-      searchAll(this.searchData)
+      getData(this.searchData)
         .then((res) => {
           console.log("请求接口all", res);
           if (res.status === 200) {

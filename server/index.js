@@ -9,8 +9,9 @@ const Koa = require('koa')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const bodyParser = require('koa-bodyparser');
-import search from './interface/search'
+import list from './interface/list'
 import global from './interface/global'
+import user from './interface/user'
 const app = new Koa()
 
 app.use(bodyParser());
@@ -39,8 +40,9 @@ async function start () {
 
 
   // app.user(search.routes()).use(search.allowedMethods())
-  app.use(search.routes()).use(search.allowedMethods())
+  app.use(list.routes()).use(list.allowedMethods())
   app.use(global.routes()).use(global.allowedMethods())
+  app.use(user.routes()).use(user.allowedMethods())
   
   app.use((ctx) => {
     ctx.status = 200
