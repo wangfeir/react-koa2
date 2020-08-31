@@ -25,6 +25,8 @@
       :visible="editVisible"
       :editData="editData"
       @hide="editHide"
+      @submit="handleOk"
+
       @refreshTable="getTableList"
     />
     <!-- <a-divider></a-divider> -->
@@ -69,10 +71,10 @@ const columns = [
   },
   {
     title: "Action",
-    key: "operation",
+    key: "userAction",
     // fixed: "right",
-    width: 100,
-    scopedSlots: { customRender: "action" },
+    width: 180,
+    scopedSlots: { customRender: "userAction" },
   },
 ];
 const createFromList = [
@@ -150,73 +152,28 @@ const editFromList = [
     required: true,
     hide: true,
   },
+
   {
-    label: "标题",
-    key: "title",
-    type: "input",
-    placeholder: "请输入标题",
-    required: true,
-  },
-  {
-    label: "作者",
-    key: "author",
+    label: "帐号",
+    key: "userid",
     type: "input",
     placeholder: "请输入作者",
     required: true,
+    disabled:true
   },
   {
-    label: "标签",
-    key: "tab",
-    type: "select",
-    placeholder: "请输入标签",
-    required: false,
-    mode: "tags", // 是否多选
-    selectOptions: [
-      {
-        label: "标签一",
-        value: "标签一",
-      },
-      {
-        label: "标签二",
-        value: "标签二",
-      },
-      {
-        label: "标签三",
-        value: "标签三",
-      },
-    ],
-  },
-  {
-    label: "类别",
-    key: "category",
-    type: "select",
-    placeholder: "请选择类别",
-    required: true,
-    selectOptions: [
-      {
-        label: "类别一",
-        value: "类别一",
-      },
-      {
-        label: "类别二",
-        value: "类别二",
-      },
-      {
-        label: "类别三",
-        value: "类别三",
-      },
-    ],
-  },
-  {
-    label: "内容",
-    key: "content",
-    type: "textarea",
-    placeholder: "请输入内容",
+    label: "密码",
+    key: "password",
+    type: "input",
+    placeholder: "请输入密码",
     required: true,
   },
+  
+  
+  
 ];
 // import { searchAll, deleteServer } from "@/api/articleList";
-import { getData } from "@/api/usersList";
+import { getData,editPassword } from "@/api/usersList";
 import TableSearch from "@/components/TableSearch";
 import CreateDataModel from "@/components/CreateDataModel";
 import EditDataModel from "@/components/EditDataModel";
@@ -279,8 +236,12 @@ export default {
       this.getTableList();
     },
     handleOk(e) {
-      this.ModalText = "The modal will be closed after two seconds";
-      this.confirmLoading = true;
+      // this.ModalText = "The modal will be closed after two seconds";
+      // this.confirmLoading = true;
+      console.log('修改密码',e)
+      editPassword(e).then(res=>{
+        console.log('res',res)
+      })
       // setTimeout(() => {
       //   this.visible = false;
       //   this.confirmLoading = false;

@@ -13,10 +13,16 @@ const schema = mongoose.Schema({
   phone:Number,
   power:String,
   logingtime:Number,
+  password:String
 })
 
 schema.statics.getData = function(){
   return this.model('users').find({}).exec()
+}
+schema.statics.updateData = function(parames){
+	// console.log(parames['_id'],this.model('articleLists').findByIdAndUpdate(parames['_id'],parames))
+	return this.model('users').findByIdAndUpdate(parames['_id'],parames).exec()
+
 }
 
 const model = mongoose.model('users',schema,'users');

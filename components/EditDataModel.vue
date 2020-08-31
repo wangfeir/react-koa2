@@ -22,7 +22,7 @@
         <a-input
           v-if="item.type==='input'"
           :placeholder="item.placeholder"
-          
+          :disabled="item.disabled"
           v-decorator="[`${item.key}`,{
             rules:[{
               required:item.required,
@@ -77,7 +77,7 @@
 import { updateData } from "@/api/global";
 
 export default {
-  props: ["fromlist","refreshTable",'visible','hide','editData'],
+  props: ["fromlist","refreshTable",'visible','hide','editData','submit'],
   data() {
     return {
       confirmLoading:false,
@@ -94,13 +94,17 @@ export default {
       return this.editData[row.key]
     },
     handleOk(e) {
+      
       this.ModalText = "The modal will be closed after two seconds";
       this.form.validateFields((err, values) => {
         if (!err) {
           this.confirmLoading = true;
           values.tab = values.tab?.join(',')
-          console.log("Received values of form: ", values);
-          updateData(values).then(res=>{
+          console.log("Received values of form: ", this.props.submit);
+          if(this.props.submit){
+            this.$emit('submit',values)
+          }else{
+            updateData(values).then(res=>{
             if(res.status === 200){
               console.log('保存成功',res)
               this.confirmLoading = false;
@@ -109,6 +113,8 @@ export default {
               this.$emit('refreshTable')
             }
           })
+          }
+          
           
         }
       });

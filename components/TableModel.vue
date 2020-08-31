@@ -26,6 +26,18 @@
         <a href="javascript:;" @click="()=>(editFun(row))">编辑</a>
 
       </div>
+      <div slot="userAction" slot-scope="row">
+        <a-popconfirm
+          title="是否确认要删除该数据？"
+          ok-text="Yes"
+          cancel-text="No"
+          @confirm="()=>(deleteFun(row))"
+        >
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+        <a href="javascript:;" @click="()=>(editFun(row))">修改密码</a>
+
+      </div>
       <div slot="date" slot-scope="text">
         {{moment(text).format("YYYY-MM-DD HH:mm:ss")}}
       </div>

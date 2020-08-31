@@ -13,3 +13,10 @@ export function getData(parameter) {
 		data: parameter
 	});
 }
+export function editPassword(parameter) {
+	return axios({
+		url: `/user/changePassword`,
+		method: 'post',
+		data: parameter
+	});
+}
