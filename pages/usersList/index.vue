@@ -167,6 +167,7 @@ const editFromList = [
     type: "input",
     placeholder: "请输入密码",
     required: true,
+    notDefaultValue:true
   },
   
   
@@ -241,6 +242,9 @@ export default {
       console.log('修改密码',e)
       editPassword(e).then(res=>{
         console.log('res',res)
+        if(res.status===200){
+          this.getTableList()
+        }
       })
       // setTimeout(() => {
       //   this.visible = false;

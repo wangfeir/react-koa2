@@ -16,6 +16,7 @@ let router = new Router({
 
 router.post('/changePassword',async (ctx)=>{
   let rb = ctx.request.body
+  console.log('修改密码',rb)
   // const error = requiredValidation(['password'], rb);
 	// if (error.length > 0) {
 	// 	console.log('创建错误', error);

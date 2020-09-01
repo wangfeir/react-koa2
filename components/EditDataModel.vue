@@ -28,7 +28,7 @@
               required:item.required,
               message:item.placeholder
             }],
-            initialValue:editData[item.key]
+            initialValue:!item.notDefaultValue?editData[item.key]:null
           }]"
         />
         <!-- 选择框 -->
@@ -81,10 +81,20 @@ export default {
   data() {
     return {
       confirmLoading:false,
+      parentSubmit:false,
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "editDataForm" }),
     };
   },
+   watch:{
+            submit:{  
+                                handler() {
+                                  this.parentSubmit = true
+                                },
+                immediate:true,//关键
+                deep:true
+            },
+        },
   methods: {
     // 处理多选框的默认数据格式
     setInitialValue(row){
@@ -100,9 +110,11 @@ export default {
         if (!err) {
           this.confirmLoading = true;
           values.tab = values.tab?.join(',')
-          console.log("Received values of form: ", this.props.submit);
-          if(this.props.submit){
+          console.log("Received values of form: ", this.props);
+          if(this.parentSubmit){
             this.$emit('submit',values)
+            this.form.resetFields();
+            this.$emit('hide')
           }else{
             updateData(values).then(res=>{
             if(res.status === 200){
