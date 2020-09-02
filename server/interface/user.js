@@ -6,6 +6,7 @@
  * @Date: 2020-08-30 13:43:45
  */
 import Router from 'koa-router';
+import { connect } from 'http2';
 const url = require('url')
 
 const UsersModel = require('../dbs/models/users')
@@ -39,11 +40,19 @@ router.post('/changePassword',async (ctx)=>{
 })
 router.post('/getList',async (ctx) =>{
   console.log('进入接口')
+  let findData = ctx.request.body
+  const {pageSize,current,status} = findData
+
   let data =await UsersModel.getData();
+  let total =await UsersModel.getDataCount();
   console.log('获取数据接口',data)
+  
   ctx.body={
     status:200,
     data,
+    total:Number(total),
+    pageSize:Number(pageSize),current:Number(current)
+
   }
 })
 

@@ -24,6 +24,10 @@ schema.statics.updateData = function(parames){
 	return this.model('users').findByIdAndUpdate(parames['_id'],parames).exec()
 
 }
+schema.statics.getDataCount = function(parames){
+  return this.model('users').count(parames).exec()
+
+}
 
 const model = mongoose.model('users',schema,'users');
 module.exports = model;
